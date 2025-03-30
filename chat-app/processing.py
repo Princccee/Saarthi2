@@ -1,6 +1,7 @@
 import os
 import requests
 from dotenv import load_dotenv
+from gradio_client import Client
 from deep_translator import GoogleTranslator
 from langdetect import detect, DetectorFactory
 from langdetect.lang_detect_exception import LangDetectException
@@ -14,7 +15,35 @@ load_dotenv()
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
 
+# Initialize Gradio Client
+client = Client("https://e5abe742dca62081bb.gradio.live/")
+
 SUPPORTED_LANGUAGES = GoogleTranslator().get_supported_languages(as_dict=True)
+
+def detect_language(text):
+    """Detects the language of a given text."""
+    try:
+        return detect(text)
+    except LangDetectException:
+        return "en"  # Default to English if detection fails
+    
+def translate_text(text, original_language=None):
+    """Translates text to English using Gradio API."""
+    # src_lang = detect_language(text)  # Detect the source language
+    target_language = "English"  # Always translate to English
+
+    try:
+        result = client.predict(
+            text=text,
+            src_lang=original_language,
+            tgt_lang=target_language,
+            api_name="/translate_text"
+        )
+        return result
+    except Exception as e:
+        print(f"Translation error: {e}")
+        return text  # Fallback: Return original text if translation fails
+ 
 
 def detect_and_translate_to_english(text):
     """Detects the language and translates to English."""
@@ -58,6 +87,12 @@ def get_gemini_response(prompt):
 
 def process_text(user_text):
     """Processes the input text through translation and generation pipeline."""
-    translated_text, original_language = detect_and_translate_to_english(user_text)
+
+    original_language = detect_language(user_text)
+    print(f"Original Language: {original_language}")
+
+    # Translate to English
+    translated_text = translate_text(user_text, original_language)
+    # translated_text, original_language = detect_and_translate_to_english(user_text)
     gemini_response = get_gemini_response(translated_text)
     return translate_to_original_language(gemini_response, original_language)
