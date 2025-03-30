@@ -1,0 +1,38 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.so
+
+# Virtual environment
+.venv/
+env/
+venv/
+
+# Environment variables
+.env
+
+# Package dependencies
+*.egg-info/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# IDE / Editor configurations
+.vscode/
+.idea/
+*.iml
+
+# Logs and local files
+logs/
+*.log
+nohup.out
+debug.log
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Streamlit cache
+.streamlit/
+
+# Flask cache and session
+instance/
