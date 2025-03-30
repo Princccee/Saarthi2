@@ -1,7 +1,7 @@
 import os
 from flask import Flask, request, jsonify
 from dotenv import load_dotenv
-from processing import process_text
+from processing import process_text_with_ai4b, process_text_with_gemini
 
 # Load environment variables
 load_dotenv()
@@ -16,7 +16,9 @@ def process():
     if not user_text:
         return jsonify({"error": "No text provided"}), 400
 
-    response_text = process_text(user_text)
+    response_text = process_text_with_gemini(user_text) # using google trans
+    # response_text = process_text_with_ai4b(user_text)  # using ai4b
+
     return jsonify({"response": response_text})
 
 if __name__ == '__main__':
