@@ -17,7 +17,7 @@ GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
 
 # Initialize Gradio Client
-client = Client("https://e5abe742dca62081bb.gradio.live/")
+client = Client("https://ec7d31b69e750ba4e4.gradio.live/")
 
 SUPPORTED_LANGUAGES = GoogleTranslator().get_supported_languages(as_dict=True)
 
