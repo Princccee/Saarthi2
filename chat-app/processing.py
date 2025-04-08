@@ -6,11 +6,12 @@ from langdetect import detect, DetectorFactory
 from langdetect.lang_detect_exception import LangDetectException
 from utils import LANGUAGE_MAP, LANGUAGES
 
-# Ensure consistent language detection
-DetectorFactory.seed = 0
-
-# Load environment variables
 load_dotenv()
+print("Loaded API Key:", os.getenv("GEMINI_API_KEY"))
+
+api_key = os.getenv("GEMINI_API_KEY")
+
+DetectorFactory.seed = 0
 
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
@@ -41,6 +42,10 @@ def translate_to_original_language(text, original_language):
         print(f"Translation error: {e}")
         return text
 
+def clean_response(response):
+    """Removes markdown asterisks and strips leading/trailing whitespace."""
+    return response.replace("*", "").strip()
+
 def get_gemini_response(prompt):
     """Generates a response using Gemini-Pro."""
     headers = {"Content-Type": "application/json"}
@@ -51,20 +56,15 @@ def get_gemini_response(prompt):
 
     if response.status_code == 200:
         try:
-            return response.json()["candidates"][0]["content"]["parts"][0]["text"]
+            raw_response = response.json()["candidates"][0]["content"]["parts"][0]["text"]
+            return clean_response(raw_response)
         except (KeyError, IndexError, TypeError):
             return "Invalid response format from API."
     else:
         return f"Error: {response.status_code}, {response.text}"
 
-# Handles translation using google translator
 def process_text_with_gemini(user_text):
     """Processes the input text through translation and generation pipeline."""
-    # Step 1: Detect the language and translate to English
     translated_text, original_language = detect_and_translate_to_english(user_text)
-
-    # Step 2: Generate response using Gemini
     gemini_response = get_gemini_response(translated_text)
-    
-    # Step 3: Translate the response back to the original language
     return translate_to_original_language(gemini_response, original_language)
