@@ -68,3 +68,4 @@ def process_text_with_gemini(user_text):
     translated_text, original_language = detect_and_translate_to_english(user_text)
     gemini_response = get_gemini_response(translated_text)
     return translate_to_original_language(gemini_response, original_language)
+    return translate_to_original_language(gemini_response, original_language)

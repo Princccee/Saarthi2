@@ -156,24 +156,26 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             body: JSON.stringify({ text: message }),
         })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Server error");
-                }
-                return response.json();
-            })
-            .then(data => data.response);
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Server error");
+            }
+            return response.json();
+        })
+        .then(data => data.response);
     }
 
     function startNewChat() {
         while (chatMessages.children.length > 1) {
             chatMessages.removeChild(chatMessages.lastChild);
         }
-
+        
+        // Update chat title
         document.querySelector('.chat-title').textContent = 'New Conversation';
     }
 
-    sendBtn.addEventListener('click', function () {
+    // Event Listeners
+    sendBtn.addEventListener('click', function() {
         if (!this.classList.contains('disabled')) {
             sendMessage();
         }
@@ -182,9 +184,7 @@ document.addEventListener('DOMContentLoaded', function () {
     chatInput.addEventListener('keydown', function (e) {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
-            if (!sendBtn.classList.contains('disabled')) {
-                sendMessage();
-            }
+            if (!sendBtn.classList.contains('disabled')) sendMessage();
         }
     });
 
@@ -202,6 +202,7 @@ document.addEventListener('DOMContentLoaded', function () {
         localStorage.setItem('theme', isDark ? 'dark' : 'light');
     });
 
+    // Load theme preference from localStorage if available
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'dark') {
         document.body.classList.add('dark-mode');
@@ -211,6 +212,7 @@ document.addEventListener('DOMContentLoaded', function () {
         themeToggle.checked = false;
     }
 
+    // New chat button
     newChatBtn.addEventListener('click', startNewChat);
 
     chatHistoryItems.forEach(item => {
@@ -226,9 +228,13 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    // Load theme preference from localStorage if available
     if (localStorage.getItem('theme') === 'dark') {
         document.body.classList.add('dark-mode');
         themeToggle.checked = true;
+    } else {
+        document.body.classList.remove('dark-mode');
+        themeToggle.checked = false;
     }
 
     toggleSendButton();
