@@ -13,7 +13,7 @@ api_key = os.getenv("GEMINI_API_KEY")
 
 DetectorFactory.seed = 0
 
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+GOOGLE_API_KEY = os.getenv("GEMINI_API_KEY")
 API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
 
 SUPPORTED_LANGUAGES = GoogleTranslator().get_supported_languages(as_dict=True)
