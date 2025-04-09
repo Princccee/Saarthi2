@@ -493,3 +493,146 @@ input:checked + .toggle-slider:before {
 .place-section li {
     margin-bottom: 0.4em;
 }
+
+/* Dark Mode */
+.dark-mode {
+    background-color: #1e1e2f;
+    color: #ffffff;
+}
+
+.dark-mode .sidebar,
+.dark-mode .chat-input-container,
+.dark-mode .chat-messages,
+.dark-mode .main-content {
+    background-color: #2e2e3f;
+    color: #fff;
+}
+
+.dark-mode {
+    background-color: #1e1e2f;
+    color: #ffffff;
+}
+
+.dark-mode .sidebar,
+.dark-mode .chat-input-container,
+.dark-mode .chat-messages,
+.dark-mode .main-content {
+    background-color: #2e2e3f;
+    color: #fff;
+}
+
+
+
+
+.dark-mode .chat-input-wrapper {
+    background-color: #2e2e3a;
+    border: 1px solid #444;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.dark-mode .chat-input {
+    color: #ffffff;
+    background-color: transparent;
+}
+
+.dark-mode .chat-input::placeholder {
+    color: #aaaaaa;
+}
+
+
+.dark-mode .user-message .message-content {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+
+.dark-mode .assistant-message .message-content {
+    background-color: #3a3a4d;
+    color: #ffffff;
+}
+
+
+.dark-mode .chat-history-item {
+    color: #dddddd;
+}
+
+.dark-mode .chat-history-item:hover {
+    background-color: #3a3a4d;
+}
+
+
+.dark-mode .new-chat-btn {
+    background-color: #6e57e0;
+    color: #ffffff;
+}
+
+.dark-mode .new-chat-btn:hover {
+    background-color: #5a48c6;
+}
+
+
+.dark-mode .theme-toggle {
+    background-color: #3a3a4d;
+    color: #ffffff;
+}
+
+
+.dark-mode .user-name {
+    color: #ffffff;
+}
+
+.dark-mode .user-status {
+    color: #94a3b8;
+}
+
+
+.dark-mode .header-btn {
+    color: #cbd5e1;
+}
+
+.dark-mode .header-btn:hover {
+    background-color: #44445c;
+    color: #ffffff;
+}
+
+
+.dark-mode .send-btn:hover {
+    background-color: #5a48c6;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        display: none;
+    }
+
+    .chat-box {
+        padding: 16px 12px;
+    }
+
+    .message {
+        font-size: 14px;
+        max-width: 100%;
+    }
+
+    .input-area {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        padding: 12px;
+    }
+
+    .input-area input,
+    .input-area button {
+        width: 100%;
+    }
+
+    .new-chat-btn {
+        width: 100%;
+        margin: 16px 0;
+    }
+}
