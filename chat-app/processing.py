@@ -17,7 +17,8 @@ GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
 
 # Initialize Gradio Client
-client = Client("https://ec7d31b69e750ba4e4.gradio.live/")
+client1 = Client("https://abhij12-en-indic-indictrans2-ai4bharat.hf.space/")
+client2 = Client("https://abhij12-ind-en-indictrans2-ai4bharat.hf.space/")
 
 SUPPORTED_LANGUAGES = GoogleTranslator().get_supported_languages(as_dict=True)
 
@@ -34,11 +35,11 @@ def translate_text(text, original_language=None):
     target_language = "English"  # Always translate to English
 
     try:
-        result = client.predict(
-            text=text,
-            src_lang=original_language,
-            tgt_lang=target_language,
-            api_name="/translate_text"
+        result = client2.predict(
+            input_txt=text,
+            # src_lang=original_language,
+            # tgt_lang=target_language,
+            api_name="/automatic_detect_and_translate"
         )
         return result
     except Exception as e:
@@ -53,11 +54,11 @@ def translate_back(text, original_language):
     target_langauge = original_language
 
     try:
-        result = client.predict(
+        result = client1.predict(
             text=text,
-            src_lang="English",
+            # src_lang="English",
             tgt_lang=target_langauge,
-            api_name="/translate_text"
+            api_name="/translate_to_indic"
         )
         print("Translation back to original language successful")
         return result

@@ -7,20 +7,20 @@ st.title("🤖 Chatbot")
 
 API_ENDPOINT = "http://127.0.0.1:5000/process"
 
-recognizer = sr.Recognizer()
+# recognizer = sr.Recognizer()
 
 def recognize_speech():
     """Captures speech input and converts it to text."""
-    with sr.Microphone() as source:
-        st.info("🎙️ Listening... Speak now.")
-        try:
-            audio = recognizer.listen(source, timeout=5)
-            text = recognizer.recognize_google(audio)
-            return text
-        except sr.UnknownValueError:
-            return "Could not understand the audio."
-        except sr.RequestError:
-            return "Speech recognition service unavailable."
+    # with sr.Microphone() as source:
+    #     st.info("🎙️ Listening... Speak now.")
+    #     try:
+    #         audio = recognizer.listen(source, timeout=5)
+    #         text = recognizer.recognize_google(audio)
+    #         return text
+    #     except sr.UnknownValueError:
+    #         return "Could not understand the audio."
+    #     except sr.RequestError:
+    #         return "Speech recognition service unavailable."
 
 # Initialize session state for user input
 if "user_text" not in st.session_state:
@@ -29,12 +29,12 @@ if "user_text" not in st.session_state:
 # User Input (Text Area)
 st.session_state.user_text = st.text_area("Enter your prompt....", value=st.session_state.user_text)
 
-# Mic button for speech input
-if st.button("🎤 Speak"):
-    recognized_text = recognize_speech()
-    if recognized_text:
-        st.session_state.user_text = recognized_text  # Update the text area
-        st.experimental_rerun()  # Refresh the UI to reflect changes
+# # Mic button for speech input
+# if st.button("🎤 Speak"):
+#     recognized_text = recognize_speech()
+#     if recognized_text:
+#         st.session_state.user_text = recognized_text  # Update the text area
+#         st.experimental_rerun()  # Refresh the UI to reflect changes
 
 # Send button
 if st.button("Send"):
