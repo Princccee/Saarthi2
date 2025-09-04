@@ -14,11 +14,16 @@ DetectorFactory.seed = 0
 load_dotenv()
 
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
-API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
+# API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
+
+API_URL = os.getenv("GEMINI_URL")
 
 # Initialize Gradio Client
-client1 = Client("https://abhij12-en-indic-indictrans2-ai4bharat.hf.space/")
-client2 = Client("https://abhij12-ind-en-indictrans2-ai4bharat.hf.space/")
+# client1 = Client("https://abhij12-en-indic-indictrans2-ai4bharat.hf.space/")
+client1 = Client(os.getenv("CLIENT_1"))
+# client2 = Client("https://abhij12-ind-en-indictrans2-ai4bharat.hf.space/")
+client2 = Client(os.getenv("CLIENT_2"))
+
 
 SUPPORTED_LANGUAGES = GoogleTranslator().get_supported_languages(as_dict=True)
 
