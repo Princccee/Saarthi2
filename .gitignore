@@ -37,3 +37,5 @@ Thumbs.db
 # Flask cache and session
 instance/
 Dockerfile
+
+Dataset/

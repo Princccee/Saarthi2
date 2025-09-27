@@ -24,7 +24,6 @@ client1 = Client(os.getenv("CLIENT_1"))
 # client2 = Client("https://abhij12-ind-en-indictrans2-ai4bharat.hf.space/")
 client2 = Client(os.getenv("CLIENT_2"))
 
-
 SUPPORTED_LANGUAGES = GoogleTranslator().get_supported_languages(as_dict=True)
 
 def detect_language(text):
@@ -110,17 +109,43 @@ def get_gemini_response(prompt):
             return "Invalid response format from API."
     else:
         return f"Error: {response.status_code}, {response.text}"
+        
+def get_response(ques, context):
+    """Generates a response using Gemini-Pro with question and context."""
+    headers = {"Content-Type": "application/json"}
+
+    # Refined prompt
+    prompt = (
+        "You are an AI assistant. Use the given context to answer the question.\n\n"
+        f"Context:\n{context}\n\n"
+        f"Question:\n{ques}\n\n"
+        "Provide a clear and concise answer:\n"
+    )
+
+    data = {"contents": [{"parts": [{"text": prompt}]}]}
+    params = {"key": GOOGLE_API_KEY}
+    
+    response = requests.post(API_URL, headers=headers, params=params, json=data)
+
+    if response.status_code == 200:
+        try:
+            return response.json()["candidates"][0]["content"]["parts"][0]["text"].strip()
+        except (KeyError, IndexError, TypeError):
+            return "Invalid response format from API."
+    else:
+        return f"Error: {response.status_code}, {response.text}"
+    
 
 # Handles translation using ai4b
 def process_text_with_ai4b(user_text):
     """Processes the input text through translation and generation pipeline."""
 
     original_language = detect_language(user_text)
-    print(f"Original Language: {original_language}")
+    # print(f"Original Language: {original_language}")
 
     original_language = LANGUAGE_MAP.get(original_language, original_language)
     original_language = LANGUAGES.get(original_language, original_language)
-    print(f"Mapped Language: {original_language}")
+    # print(f"Mapped Language: {original_language}")
 
     # Translate to English
     translated_text = translate_text(user_text, original_language)
@@ -132,6 +157,24 @@ def process_text_with_ai4b(user_text):
 
     # return translate_to_original_language(gemini_response, original_language)
     return translate_back(gemini_response, original_language)
+
+# Handles translation using ai4b
+def process_row(ques, context, lang):
+    """Processes the input text through translation and generation pipeline."""
+
+    # Translate to English
+    translated_text = translate_text(ques, lang)
+    print("Converted to English")
+
+    translate_context = translate_text(context, lang)
+    print("Context Converted to English")
+    
+    # translated_text, original_language = detect_and_translate_to_english(user_text)
+    gemini_response = get_response(translated_text, translate_context)
+    print("Gemini response received")
+
+    # return translate_to_original_language(gemini_response, original_language)
+    return translate_back(gemini_response, lang)
 
 
 # Handles translation using google translator
