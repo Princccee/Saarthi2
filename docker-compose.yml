@@ -1,0 +1,20 @@
+version: "3.8"
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./:/app:delegated
+    environment:
+      - FLASK_ENV=development
+      - PYTHONUNBUFFERED=1
+    # override the production start command with a dev-friendly one
+    command: >
+      bash -c "pip install --no-cache-dir -r requirements.txt &&
+               cd chat-app &&
+               flask run --host=0.0.0.0 --port=5000"
+    # optional: restart policy
+    restart: unless-stopped
