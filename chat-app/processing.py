@@ -1,5 +1,6 @@
 import os
 import requests
+from google import genai
 from dotenv import load_dotenv
 from gradio_client import Client
 from deep_translator import GoogleTranslator
@@ -14,9 +15,8 @@ DetectorFactory.seed = 0
 load_dotenv()
 
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
-# API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
-
-API_URL = os.getenv("GEMINI_URL", "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent")
+model_id = 'gemini-2.5-flash'
+client = genai.Client(api_key=GOOGLE_API_KEY)
 
 # Initialize Gradio Client - Commented out due to accessibility issues
 # client1 = Client(os.getenv("CLIENT_1", "abhij12/en-indic-indictrans2-ai4bharat"))
@@ -93,25 +93,18 @@ def translate_to_original_language(text, original_language):
         return text
 
 def get_gemini_response(prompt):
-    """Generates a response using Gemini-Pro."""
-    headers = {"Content-Type": "application/json"}
-    data = {"contents": [{"parts": [{"text": prompt}]}]}
-    params = {"key": GOOGLE_API_KEY}
-    
-    response = requests.post(API_URL, headers=headers, params=params, json=data)
-
-    if response.status_code == 200:
-        try:
-            return response.json()["candidates"][0]["content"]["parts"][0]["text"]
-        except (KeyError, IndexError, TypeError):
-            return "Invalid response format from API."
-    else:
-        return f"Error: {response.status_code}, {response.text}"
+    """Generates a response using Gemini."""
+    try:
+        response = client.models.generate_content(
+            model=model_id,
+            contents=prompt
+        )
+        return response.text
+    except Exception as e:
+        return f"Error: {e}"
         
 def get_response(ques, context):
-    """Generates a response using Gemini-Pro with question and context."""
-    headers = {"Content-Type": "application/json"}
-
+    """Generates a response using Gemini with question and context."""
     # Refined prompt
     prompt = (
         "You are an AI assistant. Use the given context to answer the question.\n\n"
@@ -120,18 +113,14 @@ def get_response(ques, context):
         "Provide a clear and concise answer:\n"
     )
 
-    data = {"contents": [{"parts": [{"text": prompt}]}]}
-    params = {"key": GOOGLE_API_KEY}
-    
-    response = requests.post(API_URL, headers=headers, params=params, json=data)
-
-    if response.status_code == 200:
-        try:
-            return response.json()["candidates"][0]["content"]["parts"][0]["text"].strip()
-        except (KeyError, IndexError, TypeError):
-            return "Invalid response format from API."
-    else:
-        return f"Error: {response.status_code}, {response.text}"
+    try:
+        response = client.models.generate_content(
+            model=model_id,
+            contents=prompt
+        )
+        return response.text.strip()
+    except Exception as e:
+        return f"Error: {e}"
     
 
 # Handles translation using ai4b
