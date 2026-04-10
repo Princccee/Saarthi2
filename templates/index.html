@@ -5,11 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Saarthi</title>
 
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <!-- Local Font Awesome -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/all.min.css') }}">
 
     <!-- Your stylesheet -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
 </head>
 <body>
     <div class="app-container">
@@ -76,16 +82,18 @@
             </div>
 
             <div class="chat-messages" id="chat-messages">
-                <div class="message assistant-message">
-                    <div class="message-avatar">
-                        <i class="fas fa-robot"></i>
-                    </div>
-                    <div>
-                        <div class="message-content">
-                            Hello! I'm your AI assistant. How can I help you today?
+                <div class="message-wrapper">
+                    <div class="message assistant-message">
+                        <div class="message-avatar">
+                            <i class="fas fa-robot"></i>
                         </div>
-                        <div class="message-meta">
-                            <span>Today, 11:30 AM</span>
+                        <div>
+                            <div class="message-content">
+                                Hello! I'm Saarthi, your AI companion. How can I help you today?
+                            </div>
+                            <div class="message-meta">
+                                <span>Just now</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -93,17 +101,18 @@
 
             <div class="chat-input-container">
                 <div class="chat-input-wrapper">
-                    <textarea class="chat-input" id="chat-input" placeholder="Message..." rows="1"></textarea>
+                    <textarea class="chat-input" id="chat-input" placeholder="Ask Saarthi anything..." rows="1"></textarea>
                     <div class="input-actions">
-                        <button class="input-btn" id="mic-btn">
+                        <button class="input-btn" id="mic-btn" title="Speech Input">
                             <i class="fas fa-microphone"></i>
                         </button>
-                        <button class="input-btn send-btn disabled" id="send-btn">
+                        <button class="input-btn send-btn disabled" id="send-btn" title="Send Message">
                             <i class="fas fa-paper-plane"></i>
                         </button>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 

@@ -55,6 +55,9 @@ document.addEventListener('DOMContentLoaded', function () {
         const now = new Date();
         const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
+        const wrapper = document.createElement('div');
+        wrapper.classList.add('message-wrapper');
+
         const messageDiv = document.createElement('div');
         messageDiv.classList.add('message', `${sender}-message`);
 
@@ -69,18 +72,23 @@ document.addEventListener('DOMContentLoaded', function () {
                     ${content}
                 </div>
                 <div class="message-meta">
-                    <span>Today, ${timeString}</span>
+                    <span>${timeString}</span>
                 </div>
             </div>
         `;
 
-        chatMessages.appendChild(messageDiv);
+        wrapper.appendChild(messageDiv);
+        chatMessages.appendChild(wrapper);
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
+
     function showTypingIndicator() {
+        const wrapper = document.createElement('div');
+        wrapper.classList.add('message-wrapper', 'typing-indicator-container');
+
         const typingDiv = document.createElement('div');
-        typingDiv.classList.add('message', 'assistant-message', 'typing-indicator-container');
+        typingDiv.classList.add('message', 'assistant-message');
 
         typingDiv.innerHTML = `
             <div class="message-avatar">
@@ -97,9 +105,11 @@ document.addEventListener('DOMContentLoaded', function () {
             </div>
         `;
 
-        chatMessages.appendChild(typingDiv);
+        wrapper.appendChild(typingDiv);
+        chatMessages.appendChild(wrapper);
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
+
 
     function markdownToHTML(markdown) {
         return markdown
@@ -120,6 +130,9 @@ document.addEventListener('DOMContentLoaded', function () {
         const now = new Date();
         const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
+        const wrapper = document.createElement('div');
+        wrapper.classList.add('message-wrapper');
+
         const messageDiv = document.createElement('div');
         messageDiv.classList.add('message', 'assistant-message');
 
@@ -132,12 +145,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     <span class="streaming-text"></span><span class="cursor-blink"></span>
                 </div>
                 <div class="message-meta">
-                    <span>Today, ${timeString}</span>
+                    <span>${timeString}</span>
                 </div>
             </div>
         `;
 
-        chatMessages.appendChild(messageDiv);
+        wrapper.appendChild(messageDiv);
+        chatMessages.appendChild(wrapper);
         chatMessages.scrollTop = chatMessages.scrollHeight;
 
         const streamingText = messageDiv.querySelector('.streaming-text');
@@ -147,6 +161,7 @@ document.addEventListener('DOMContentLoaded', function () {
         streamingText.innerHTML = formattedHTML;
         cursor.remove();
     }
+
 
     function getRealResponse(message) {
         return fetch("/process", {

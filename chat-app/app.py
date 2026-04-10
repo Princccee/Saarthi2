@@ -26,8 +26,8 @@ def process():
     if not user_text:
         return jsonify({"error": "No text provided"}), 400
 
-    # response_text = process_text_with_gemini(user_text)
-    response_text = process_text_with_ai4b(user_text)
+    response_text = process_text_with_gemini(user_text)
+    # response_text = process_text_with_ai4b(user_text)
 
     return jsonify({"response": response_text})
 
